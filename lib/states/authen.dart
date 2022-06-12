@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ungtonyapp/states/create_new_account.dart';
 import 'package:ungtonyapp/utility/my_constant.dart';
 import 'package:ungtonyapp/widgets/show_button.dart';
 import 'package:ungtonyapp/widgets/show_form.dart';
@@ -47,12 +48,20 @@ class _AuthenState extends State<Authen> {
 
   Row newSignUp() {
     return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const ShowText(label: "Don't have an account ? "),
-                  ShowTextButton(label: 'Sign Up', pressFunc: () {}),
-                ],
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const ShowText(label: "Don't have an account ? "),
+        ShowTextButton(
+            label: 'Sign Up',
+            pressFunc: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateNewAccount(),
+                  ));
+            }),
+      ],
+    );
   }
 
   ShowTextButton newForgot() =>

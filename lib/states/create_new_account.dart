@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ungtonyapp/utility/my_constant.dart';
 import 'package:ungtonyapp/widgets/show_form.dart';
 import 'package:ungtonyapp/widgets/show_icon_button.dart';
@@ -20,6 +21,27 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
     'Other',
   ];
   String? gender;
+
+  @override
+  void initState() {
+    super.initState();
+    findPosition();
+  }
+
+  Future<void> findPosition() async {
+    bool locationServiceEnable;
+    LocationPermission locationPermission;
+
+    locationServiceEnable = await Geolocator.isLocationServiceEnabled();
+
+    if (!locationServiceEnable) {
+      // ไม่ได้เปิด Service Enable
+      print('ไม่ได้เปิด Service Enable');
+    } else {
+      // เปิด Service Location
+      print('เปิด Service Location');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +87,10 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
               subTitle: '*',
             ),
             newGender(),
-            const ShowTitle(title: 'Location', subTitle: '*',),
+            const ShowTitle(
+              title: 'Location',
+              subTitle: '*',
+            ),
             ShowText(label: 'lat = 123.456, lng = 123.456'),
           ],
         );
@@ -75,30 +100,30 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   Container newGender() {
     return Container(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(30)),
-            child: DropdownButton<dynamic>(isExpanded: true,
-              underline: const SizedBox(),
-              hint: ShowText(label: 'Please Choose Gender'),
-              value: gender,
-              items: genders
-                  .map(
-                    (e) => DropdownMenuItem(
-                      child: ShowText(label: e),
-                      value: e,
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  gender = value;
-                });
-              },
-            ),
-          );
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+          border: Border.all(), borderRadius: BorderRadius.circular(30)),
+      child: DropdownButton<dynamic>(
+        isExpanded: true,
+        underline: const SizedBox(),
+        hint: ShowText(label: 'Please Choose Gender'),
+        value: gender,
+        items: genders
+            .map(
+              (e) => DropdownMenuItem(
+                child: ShowText(label: e),
+                value: e,
+              ),
+            )
+            .toList(),
+        onChanged: (value) {
+          setState(() {
+            gender = value;
+          });
+        },
+      ),
+    );
   }
 
   Row newAvatar(BoxConstraints boxConstraints) {
